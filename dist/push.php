@@ -5,27 +5,19 @@ $totp = $_GET['totp'];
 
 // Check if it is all-numeric and of correct length
 if (!preg_match('/^[0-9]{6}$/', $totp)) {
-    $out =  [
-        "error" => "Illegal input",
-    ];
+    $out = erray("Illegal input");
 } else if (`oathtool -w 1 --totp deadabbabeef $totp` === NULL) {
-    $out = [
-        "error" => "Incorrect code",
-    ];
+    $out = erray("Incorrect code");
 } else {
-    `sispmctl -A3 --Aat "\`date '+%F %H:%M' -d 5min\`" --Ado off`;
+    relay_set_timeout(3, "5min");
     $out = relay_left(3);
-
     $status = relay_status(3);
+
     if ($out === NULL || $status === NULL) {
-        $out = [
-            "error" => "Relay control failed, try again!",
-        ];
+        $out = erray("Relay control failed, try again!");
     } else if ($status === "off") {
-        $out = [
-            "error" => "Power already down",
-        ];
+        $out = erray("Power already down");
     }
 }
 
-print(json_encode($out)."\n");
+jprint($out);
