@@ -6,6 +6,8 @@ var app = new Vue({
 	info: '',
 	countdown: null,
 	powered: null,
+	alarm: new Audio('media/alarm.ogg'),
+	timeout: new Audio('media/timeout.ogg'),
     },
     
     filters: {
@@ -22,10 +24,23 @@ var app = new Vue({
 
     created: function () {
 	this.relayLeft()
+	this.alarm.loop = true
 
 	window.setInterval(() => {
             this.countdown = this.left.timeout - Date.now()/1000
 	    this.powered = this.countdown >= 0
+
+	    // Beep
+	    if (this.countdown < 0) {
+		if (!this.alarm.paused) {
+		    this.alarm.pause()
+		    this.timeout.play()
+		}
+	    } else if (this.countdown < 30 && this.alarm.paused) {
+		this.alarm.play()
+	    } else if (this.countdown >= 30 && !this.alarm.paused) {
+		this.alarm.pause()
+	    }
 	},500)
     },
 
