@@ -8,6 +8,7 @@ var app = new Vue({
 	powered: null,
 	alarm: new Audio('media/alarm.ogg'),
 	timeout: new Audio('media/timeout.ogg'),
+	push: new Audio('media/push.ogg'),
     },
     
     filters: {
@@ -93,7 +94,10 @@ var app = new Vue({
 		self.left = JSON.parse(xhr.responseText)
 		self.hideInfoIfOk()
 		self.$refs.totp.focus()
-		if (!self.left.error) self.totp = ''
+		if (!self.left.error) {
+		    self.totp = ''
+		    self.push.play()
+		}
 	    }
 	    self.info = 'Pushing...'
 	    xhr.send()
