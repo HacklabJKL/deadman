@@ -1,0 +1,17 @@
+/* HTML5 display-role reset for older browsers */
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section{
+    display:block;
+}
+
+blink, .blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  67% { opacity: 0 }
+}
+
+#error {
+    color: red;
+}
