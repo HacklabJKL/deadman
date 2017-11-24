@@ -37,7 +37,7 @@ var app = new Vue({
 		self.left = JSON.parse(xhr.responseText)
 		self.hideInfoIfOk()
 	    }
-	    this.info = 'Loading initial state...'
+	    this.info = 'Ladataan alkutila...'
 	    xhr.send()
 	},
 
@@ -49,7 +49,7 @@ var app = new Vue({
 		self.left = JSON.parse(xhr.responseText)
 		self.hideInfoIfOk()
 	    }
-	    self.info = 'Turning power on...'
+	    self.info = 'Kytketään sähköt päälle...'
 	    xhr.send()
 	},
 
@@ -61,8 +61,12 @@ var app = new Vue({
 		self.left = JSON.parse(xhr.responseText)
 		self.hideInfoIfOk()
 	    }
-	    self.info = 'Turning power off..'
-	    xhr.send()
+	    this.info = 'Katkaistaan sähköt...'
+	    if (window.confirm("Tämä katkaisee sähköt tulostimesta. Oletko varma?")) {
+		xhr.send()
+	    } else {
+		this.left.error = "Peruutettu"
+	    }
 	},
 
 	relayPush: function (code) {
