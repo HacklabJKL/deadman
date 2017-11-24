@@ -15,7 +15,6 @@ function relay_left($relay_id) {
 
     $timeout = new DateTime($matches[1]);
     return [
-        "left" => $timeout->getTimestamp() - time(),
         "timeout" => $timeout->getTimestamp(),
     ];
 }
