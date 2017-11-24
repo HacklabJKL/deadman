@@ -1,11 +1,11 @@
 var app = new Vue({
     el: '#app',
     data: {
-	left: {
-	},
+	left: {},
 	totp: '',
 	info: '',
 	countdown: null,
+	powered: null,
     },
     
     filters: {
@@ -24,6 +24,7 @@ var app = new Vue({
 
 	window.setInterval(() => {
             this.countdown = this.left.timeout - Date.now()/1000
+	    this.powered = this.countdown >= 0
 	},500)
     },
 
@@ -34,7 +35,9 @@ var app = new Vue({
 	    xhr.open('GET', 'left')
 	    xhr.onload = function () {
 		self.left = JSON.parse(xhr.responseText)
+		self.hideInfoIfOk()
 	    }
+	    xhr.info = 'Loading initial state...'
 	    xhr.send()
 	},
 
@@ -44,7 +47,7 @@ var app = new Vue({
 	    xhr.open('GET', 'on')
 	    xhr.onload = function () {
 		self.left = JSON.parse(xhr.responseText)
-		self.info = ''
+		self.hideInfoIfOk()
 	    }
 	    self.info = 'Turning power on...'
 	    xhr.send()
@@ -56,7 +59,7 @@ var app = new Vue({
 	    xhr.open('GET', 'off')
 	    xhr.onload = function () {
 		self.left = JSON.parse(xhr.responseText)
-		self.info = ''
+		self.hideInfoIfOk()
 	    }
 	    self.info = 'Turning power off..'
 	    xhr.send()
@@ -68,12 +71,16 @@ var app = new Vue({
 	    xhr.open('GET', 'push?totp=' + encodeURIComponent(code))
 	    xhr.onload = function () {
 		self.left = JSON.parse(xhr.responseText)
-		self.info = ''
+		self.hideInfoIfOk()
 		self.$refs.totp.focus()
 		if (!self.left.error) self.totp = ''
 	    }
 	    self.info = 'Pushing...'
 	    xhr.send()
+	},
+
+	hideInfoIfOk: function () {
+	    if (!this.left.error) this.info = 'Status OK'
 	},
     }
 })
