@@ -9,14 +9,13 @@ if ($status === "off") {
     // minutes.
     relay_set_timeout(3, "2min");
     `sispmctl -o3`; // Turn on relay
-    $new_status = relay_status(3);
-    $out = relay_left(3);
+}
+$out = relay_left(3);
 
-    if ($new_status !== "on" || $out === FALSE) {
-        $out = erray("Unable to turn on, try again!");
-    }
-} else {
-    $out = erray("Relay already on");
+if ($out === FALSE) {
+    $out = erray("Unable to turn on, try again!");
+} else if ($status !== "off") {
+    $out['error'] = "Relay already on";
 }
 
 jprint($out);

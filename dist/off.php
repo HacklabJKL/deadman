@@ -1,3 +1,7 @@
 <?php
+require_once(__DIR__.'/../lib/common.php');
+
 `sispmctl -f 3`;
-print("{}\n");
+jprint([
+    "timeout" => 0,
+]);

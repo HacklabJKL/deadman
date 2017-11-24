@@ -2,4 +2,10 @@
 
 require_once(__DIR__.'/../lib/common.php');
 
-jprint(relay_left(3) ?: erray("Relay controller read failure"));
+if (relay_status(3) === 'off') {
+    jprint([
+        "timeout" => 0,
+    ]);
+} else {
+    jprint(relay_left(3) ?: erray("Relay controller read failure"));
+}
