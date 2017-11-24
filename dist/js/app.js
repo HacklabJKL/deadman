@@ -6,7 +6,9 @@ var app = new Vue({
 	info: '',
 	countdown: null,
 	powered: null,
+	prealarm: new Audio('media/prealarm.ogg'),
 	alarm: new Audio('media/alarm.ogg'),
+	wrong: new Audio('media/alarm.ogg'),
 	timeout: new Audio('media/timeout.ogg'),
 	push: new Audio('media/push.ogg'),
     },
@@ -26,6 +28,7 @@ var app = new Vue({
     created: function () {
 	this.relayLeft()
 	this.alarm.loop = true
+	this.prealarm.loop = true
 
 	window.setInterval(() => {
             this.countdown = this.left.timeout - Date.now()/1000
@@ -37,10 +40,19 @@ var app = new Vue({
 		    this.alarm.pause()
 		    this.timeout.play()
 		}
-	    } else if (this.countdown < 30 && this.alarm.paused) {
-		this.alarm.play()
-	    } else if (this.countdown >= 30 && !this.alarm.paused) {
-		this.alarm.pause()
+	    } else if (this.countdown < 30) {
+		if (this.alarm.paused) {
+		    this.prealarm.pause()
+		    this.alarm.play()
+		}
+	    } else if (this.countdown < 40) {
+		if (this.prealarm.paused) {
+		    this.alarm.pause()
+		    this.prealarm.play()
+		}
+	    } else {
+		if (!this.alarm.paused) this.alarm.pause()
+		if (!this.prealarm.paused) this.prealarm.pause()
 	    }
 	},500)
     },
@@ -94,7 +106,9 @@ var app = new Vue({
 		self.left = JSON.parse(xhr.responseText)
 		self.hideInfoIfOk()
 		self.$refs.totp.focus()
-		if (!self.left.error) {
+		if (self.left.error) {
+		    self.wrong.play()
+		} else {
 		    self.totp = ''
 		    self.push.play()
 		}
