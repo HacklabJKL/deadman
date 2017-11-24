@@ -11,9 +11,10 @@ var app = new Vue({
     filters: {
 	formatTimeout: function (ts) {
 	    if (typeof ts !== 'number') return ''
-	    if (ts < 0) return 'AIKA!'
+	    if (ts < 0) return '--:--'
 	    var min = Math.floor(ts / 60).toString()
 	    var sec = Math.floor(ts % 60).toString()
+	    if (min.length === 1) min = '0' + min;
 	    if (sec.length === 1) sec = '0' + sec;
 	    return min + ':' + sec;	
 	},

@@ -4,6 +4,11 @@ footer,header,hgroup,menu,nav,section{
     display:block;
 }
 
+@font-face {
+  font-family: 'DSEG7ModernMini-Regular';
+  src: url(../fonts/DSEG7ClassicMini-Regular.woff2) format('woff2');
+}
+
 blink, .blink {
   animation: blink 1s step-end infinite;
 }
@@ -14,4 +19,9 @@ blink, .blink {
 
 #error {
     color: red;
+}
+
+#countdown {
+    font-family: 'DSEG7ModernMini-Regular';
+    font-size: 1.5rem;
 }
