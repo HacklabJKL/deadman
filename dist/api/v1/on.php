@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__.'/../lib/common.php');
+require_once(__DIR__.'/../../../lib/common.php');
 
 $status = relay_status(3);
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../lib/common.php');
+require_once(__DIR__.'/../../../lib/common.php');
 
 if (relay_status(3) === 'off') {
     jprint([
