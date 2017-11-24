@@ -22,8 +22,9 @@
   <div id="app">
     <button type="button" v-on:click="relayOn()" v-bind:disabled="powered">Käynnistä</button>
     <button type="button" v-on:click="relayOff()">Sammuta</button>
-    <input id="totp" ref="totp" v-model="totp" type="text" inputmode="numeric" size="6" minlength="6" maxlength="6" autocomplete="off" pattern="[0-9]{6}">
-    <button type="button" v-on:click="relayPush(totp)" v-bind:disabled="!powered">Elossa</button>
+    <label for="totp">Koodi:</label>
+    <input id="totp" ref="totp" v-model="totp" type="text" inputmode="numeric" size="6" minlength="6" maxlength="6" autocomplete="off" pattern="[0-9]{6}" v-on:keyup.enter="relayPush(totp)">
+    <button type="button" v-on:click="relayPush(totp)" v-bind:disabled="!powered || !totp.match(/^[0-9]{6}$/)">Jatka</button>
     <span>{{ countdown | formatTimeout }}</span>
 
     <p id="info">{{ info }} <span id="error">{{ left.error }}</span></p>
