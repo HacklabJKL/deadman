@@ -32,19 +32,19 @@ var app = new Vue({
 	relayLeft: function () {
 	    var xhr = new XMLHttpRequest()
 	    var self = this
-	    xhr.open('GET', 'left')
+	    xhr.open('GET', 'api/v1/left')
 	    xhr.onload = function () {
 		self.left = JSON.parse(xhr.responseText)
 		self.hideInfoIfOk()
 	    }
-	    xhr.info = 'Loading initial state...'
+	    this.info = 'Loading initial state...'
 	    xhr.send()
 	},
 
 	relayOn: function () {
 	    var xhr = new XMLHttpRequest()
 	    var self = this
-	    xhr.open('GET', 'on')
+	    xhr.open('PUT', 'api/v1/on')
 	    xhr.onload = function () {
 		self.left = JSON.parse(xhr.responseText)
 		self.hideInfoIfOk()
@@ -56,7 +56,7 @@ var app = new Vue({
 	relayOff: function () {
 	    var xhr = new XMLHttpRequest()
 	    var self = this
-	    xhr.open('GET', 'off')
+	    xhr.open('PUT', 'api/v1/off')
 	    xhr.onload = function () {
 		self.left = JSON.parse(xhr.responseText)
 		self.hideInfoIfOk()
@@ -68,7 +68,7 @@ var app = new Vue({
 	relayPush: function (code) {
 	    var xhr = new XMLHttpRequest()
 	    var self = this
-	    xhr.open('GET', 'push?totp=' + encodeURIComponent(code))
+	    xhr.open('PUT', 'api/v1/push?totp=' + encodeURIComponent(code))
 	    xhr.onload = function () {
 		self.left = JSON.parse(xhr.responseText)
 		self.hideInfoIfOk()
