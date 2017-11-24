@@ -20,19 +20,19 @@
   </video>
   
   <div id="app">
-    <p id="info">{{ info }}</p>
-    <p id="error">{{ left.error }}</p>
-
     <button type="button" v-on:click="relayOn()">Käynnistä</button>
     <button type="button" v-on:click="relayOff()">Sammuta</button>
-    <input id="totp" type="text" v-model="totp">
+    <input id="totp" ref="totp" v-model="totp" type="text" inputmode="numeric" size="6" minlength="6" maxlength="6" autocomplete="off" pattern="[0-9]{6}">
     <button type="button" v-on:click="relayPush(totp)">Elossa</button>
-    <div>{{ countdown | formatTimeout }}</div>
+    <span>{{ countdown | formatTimeout }}</span>
+
+    <p id="error">{{ left.error }}</p>
+    <p id="info">{{ info }}</p>
+
   </div>
   <p>
     Ärsyttääkö tämän sivun asettelu? Oletko
-    leiskapetteri? Jos vastasit näihin kysymyksiin
-    <span class="blink">kyllä</span>, lähetä pull request! Sorsat ovat
+    leiskapetteri? Lähetä pull request! Sorsat ovat
     <a href="https://github.com/HacklabJKL/deadman/tree/master/dist">täällä</a>.
   </p>
 

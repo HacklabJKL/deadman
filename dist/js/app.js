@@ -69,6 +69,8 @@ var app = new Vue({
 	    xhr.onload = function () {
 		self.left = JSON.parse(xhr.responseText)
 		self.info = ''
+		self.$refs.totp.focus()
+		if (!self.left.error) self.totp = ''
 	    }
 	    self.info = 'Pushing...'
 	    xhr.send()
