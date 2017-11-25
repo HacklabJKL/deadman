@@ -14,9 +14,13 @@ var app = new Vue({
     },
     
     filters: {
+	ledTime: function(str) {
+	    if (str === null) return '--:--'
+	    return str
+	},
 	formatTimeout: function (ts) {
-	    if (typeof ts !== 'number') return ''
-	    if (ts < 0) return '--:--'
+	    if (typeof ts !== 'number') return null
+	    if (ts < 0) return null
 	    var min = Math.floor(ts / 60).toString()
 	    var sec = Math.floor(ts % 60).toString()
 	    if (min.length === 1) min = '0' + min;
@@ -25,13 +29,24 @@ var app = new Vue({
 	},
     },
 
-    created: function () {
+    mounted: function () {
 	this.relayLeft()
+	this.origTitle = document.title
 
 	window.setInterval(() => {
             this.countdown = this.left.timeout - Date.now()/1000
 	    this.powered = this.countdown >= 0
-
+	    // Doing this hard way because vuejs doesn't like support titles
+	    var newTitle = this.$options.filters.formatTimeout(this.countdown)
+	    if (this.oldTitle !== newTitle) {
+		if (this.countdown < 0) {
+		    document.title = this.origTitle
+		} else {
+		    document.title = newTitle + ' – ' + this.origTitle
+		}
+		this.oldTitle = newTitle
+	    }
+	    
 	    // Beep
 	    if (this.countdown < 0) {
 		if (this.alarm.loop || this.prealarm.loop) {
