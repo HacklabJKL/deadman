@@ -27,8 +27,6 @@ var app = new Vue({
 
     created: function () {
 	this.relayLeft()
-	this.alarm.loop = true
-	this.prealarm.loop = true
 
 	window.setInterval(() => {
             this.countdown = this.left.timeout - Date.now()/1000
@@ -36,23 +34,26 @@ var app = new Vue({
 
 	    // Beep
 	    if (this.countdown < 0) {
-		if (!this.alarm.paused) {
-		    this.alarm.pause()
+		if (this.alarm.loop || this.prealarm.loop) {
+		    this.alarm.loop = false;
+		    this.prealarm.loop = false;
 		    this.timeout.play()
 		}
 	    } else if (this.countdown < 30) {
-		if (this.alarm.paused) {
-		    this.prealarm.pause()
+		if (!this.alarm.loop) {
+		    this.prealarm.loop = false;
+		    this.alarm.loop = true
 		    this.alarm.play()
 		}
 	    } else if (this.countdown < 40) {
-		if (this.prealarm.paused) {
-		    this.alarm.pause()
+		if (!this.prealarm.loop) {
+		    this.alarm.loop = false
+		    this.prealarm.loop = true;
 		    this.prealarm.play()
 		}
 	    } else {
-		if (!this.alarm.paused) this.alarm.pause()
-		if (!this.prealarm.paused) this.prealarm.pause()
+		this.alarm.loop = false;
+		this.prealarm.loop = false;
 	    }
 	},500)
     },
