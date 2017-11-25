@@ -8,7 +8,7 @@ var app = new Vue({
 	powered: null,
 	prealarm: new Audio('media/prealarm.ogg'),
 	alarm: new Audio('media/alarm.ogg'),
-	wrong: new Audio('media/alarm.ogg'),
+	wrong: new Audio('media/fail.ogg'),
 	timeout: new Audio('media/timeout.ogg'),
 	push: new Audio('media/push.ogg'),
     },
